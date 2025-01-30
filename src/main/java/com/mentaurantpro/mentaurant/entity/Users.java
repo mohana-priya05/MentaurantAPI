@@ -2,9 +2,11 @@ package com.mentaurantpro.mentaurant.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
-@Table (name = "mentaurant")
+@Table (name = "users")
+@Data
 public class Users {
 
     @Id
@@ -54,7 +56,5 @@ public class Users {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
 
 }

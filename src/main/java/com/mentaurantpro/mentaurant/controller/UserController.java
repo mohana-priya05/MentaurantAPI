@@ -15,7 +15,7 @@ public class UserController {
 
     @Autowired
     UserService userService;
-    @PostMapping("/login")
+    @PostMapping("/sign-up")
     public List<Users> postMethod(@RequestBody List<LoginRequestDto> login) {
 
         //check if the user exists
