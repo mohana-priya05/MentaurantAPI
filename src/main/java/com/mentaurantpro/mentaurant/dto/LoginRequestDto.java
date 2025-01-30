@@ -1,21 +1,19 @@
-package com.mentaurantpro.mentaurant.entity;
+package com.mentaurantpro.mentaurant.dto;
 
+public class LoginRequestDto {
+    Integer id;
+    String firstName;
+    String lastName;
+    String email;
+    String password;
 
-import jakarta.persistence.*;
-import lombok.Data;
-
-@Entity
-@Table (name = "users")
-@Data
-public class Users {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
+    public LoginRequestDto(Integer id, String firstName, String lastName, String email, String password) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+    }
 
     public Integer getId() {
         return id;
@@ -56,5 +54,4 @@ public class Users {
     public void setPassword(String password) {
         this.password = password;
     }
-
 }
