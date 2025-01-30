@@ -60,5 +60,20 @@ public class UserServiceImpl implements UserService {
         return usersArray;
     }
 
+//    @Autowired
+//    UserRepository userRepository;
+//
+//    @Override
+//    public String getUserByUsername(String email, Integer isDeleted) {
+//        Optional<Users> users = userRepository.findByEmail(email);
+//        System.out.println("users : "+ users);
+//        if(users.isEmpty()){
+//            return "Invalid Email";
+//        }
+//
+//        return users.get().getFirstName()+ " " +users.get().getLastName();
+//
+//
+//    }
 
 }
