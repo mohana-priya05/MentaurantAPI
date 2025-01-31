@@ -60,6 +60,19 @@ public class UserServiceImpl implements UserService {
         return usersArray;
     }
 
+    @Override
+    public Users getDetail(LoginRequestDto signup) {
+        System.out.println("signup : "+ signup);
+        Users user = new Users ();
+        user.setFirstName(signup.getFirstName());
+        user.setLastName(signup.getLastName());
+        user.setEmail(signup.getEmail());
+        user.setPassword(signup.getPassword());
+
+         Users savedUser  = userRepository.save(user);
+        return savedUser;
+    }
+
 //    @Autowired
 //    UserRepository userRepository;
 //
