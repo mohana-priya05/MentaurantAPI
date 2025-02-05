@@ -4,10 +4,12 @@ import com.mentaurantpro.mentaurant.dto.LoginRequestDto;
 import com.mentaurantpro.mentaurant.entity.Users;
 import com.mentaurantpro.mentaurant.repository.UserRepository;
 import com.mentaurantpro.mentaurant.service.UserService;
+import com.mentaurantpro.mentaurant.utils.EncryptionDecryption;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,6 +18,10 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Value("${encryption.secret}")
+    String secretKey;
+
 
     @Autowired
     UserRepository userRepository;
@@ -58,6 +64,21 @@ public class UserServiceImpl implements UserService {
             usersArray.add(savedUsers);
         }));
         return usersArray;
+    }
+
+    @Override
+    public Users getDetail(LoginRequestDto signup) {
+        System.out.println("signup : "+ signup);
+        Users user = new Users ();
+        user.setFirstName(signup.getFirstName());
+        user.setLastName(signup.getLastName());
+        user.setEmail(signup.getEmail());
+
+       String encryptedPass= EncryptionDecryption.encrypt(signup.getPassword() , secretKey);
+        user.setPassword(encryptedPass);
+
+         Users savedUser  = userRepository.save(user);
+        return savedUser;
     }
 
 //    @Autowired

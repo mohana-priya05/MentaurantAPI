@@ -6,6 +6,7 @@ public class LoginRequestDto {
     String lastName;
     String email;
     String password;
+    Integer role_id;
 
     public LoginRequestDto(Integer id, String firstName, String lastName, String email, String password) {
         this.id = id;
@@ -13,6 +14,7 @@ public class LoginRequestDto {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.role_id = role_id;
     }
 
     public Integer getId() {
@@ -53,5 +55,13 @@ public class LoginRequestDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void getRole_id(String role_id) {
+        this.role_id = role_id;
+    }
+
+    public void setgetRole_id(String role_id) {
+        this.role_id = role_id;
     }
 }

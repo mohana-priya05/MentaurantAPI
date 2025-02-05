@@ -1,22 +1,12 @@
 package com.mentaurantpro.mentaurant.dto;
 
 public class SignInDto {
-    Integer id;
     String email;
     String password;
 
-    public SignInDto(Integer id, String email, String password) {
-        this.id = id;
+    public SignInDto(String email, String password) {
         this.email = email;
         this.password = password;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getEmail() {
@@ -34,4 +24,5 @@ public class SignInDto {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

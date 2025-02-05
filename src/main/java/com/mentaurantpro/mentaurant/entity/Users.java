@@ -12,9 +12,12 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name="firstname")
     private String firstName;
+    @Column(name="lastname")
     private String lastName;
     private String email;
+    @Column(name="userpassword")
     private String password;
 
     public Integer getId() {
