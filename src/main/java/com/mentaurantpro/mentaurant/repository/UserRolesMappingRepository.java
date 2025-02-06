@@ -9,6 +9,6 @@ import java.util.Optional;
 @Repository
 public interface UserRolesMappingRepository extends JpaRepository<UserRolesMapping, Integer> {
 
-   Optional<UserRolesMapping> findByUser_id(Integer user_id);
-   Optional<UserRolesMapping> findByRole_id(Integer role_id);
+//   Optional<UserRolesMapping> findByUser_id(Integer user_id);
+//   Optional<UserRolesMapping> findByRole_id(Integer role_id);
 }
