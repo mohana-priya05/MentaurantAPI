@@ -38,8 +38,8 @@ public class EncryptionDecryption {
         }
         return null;
     }
-    public static void main(String[] args) {
-        //use this secret key to encryt or decrypt, place this in application.properties file and access that in code
-        String secretKey = "LL8dD4joDIdaot+/ov7RtMR1mVwjgpvzwzPVot4R7lY=";
-    }
+//    public static void main(String[] args) {
+//        //use this secret key to encryt or decrypt, place this in application.properties file and access that in code
+//        String secretKey = "LL8dD4joDIdaot+/ov7RtMR1mVwjgpvzwzPVot4R7lY=";
+//    }
 }

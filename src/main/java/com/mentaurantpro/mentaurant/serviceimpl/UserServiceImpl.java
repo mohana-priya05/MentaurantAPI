@@ -1,8 +1,10 @@
 package com.mentaurantpro.mentaurant.serviceimpl;
 
 import com.mentaurantpro.mentaurant.dto.LoginRequestDto;
+import com.mentaurantpro.mentaurant.entity.UserRolesMapping;
 import com.mentaurantpro.mentaurant.entity.Users;
 import com.mentaurantpro.mentaurant.repository.UserRepository;
+import com.mentaurantpro.mentaurant.repository.UserRolesMappingRepository;
 import com.mentaurantpro.mentaurant.service.UserService;
 import com.mentaurantpro.mentaurant.utils.EncryptionDecryption;
 import jakarta.persistence.Entity;
@@ -25,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    UserRolesMappingRepository userRolesMappingRepository;
 
     @Override
     public String getUsersByFirstName(String firstName) {
@@ -74,10 +79,16 @@ public class UserServiceImpl implements UserService {
         user.setLastName(signup.getLastName());
         user.setEmail(signup.getEmail());
 
+
        String encryptedPass= EncryptionDecryption.encrypt(signup.getPassword() , secretKey);
         user.setPassword(encryptedPass);
 
          Users savedUser  = userRepository.save(user);
+        UserRolesMapping rolesMapping = new UserRolesMapping();
+        rolesMapping.setUser_id(savedUser.getId());
+        rolesMapping.setRole_id(signup.getRole_id());
+
+        UserRolesMapping savedRoles = userRolesMappingRepository.save(rolesMapping);
         return savedUser;
     }
 

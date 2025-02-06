@@ -57,11 +57,11 @@ public class LoginRequestDto {
         this.password = password;
     }
 
-    public void getRole_id(String role_id) {
-        this.role_id = role_id;
+    public Integer getRole_id() {
+        return this.role_id;
     }
 
-    public void setgetRole_id(String role_id) {
+    public void setgetRole_id(Integer role_id) {
         this.role_id = role_id;
     }
 }
