@@ -1,6 +1,7 @@
 package com.mentaurantpro.mentaurant.controller;
 
 import com.mentaurantpro.mentaurant.dto.LoginRequestDto;
+import com.mentaurantpro.mentaurant.dto.UserResponseDto;
 import com.mentaurantpro.mentaurant.entity.Users;
 import com.mentaurantpro.mentaurant.service.UserService;
 import jakarta.persistence.Entity;
@@ -27,7 +28,7 @@ public class UserController {
     }
     @PostMapping("/signup")
 
-    public  Users signUpMethod(@RequestBody LoginRequestDto signup){
+    public UserResponseDto signUpMethod(@RequestBody LoginRequestDto signup){
         return  userService.getDetail(signup);
 
     }

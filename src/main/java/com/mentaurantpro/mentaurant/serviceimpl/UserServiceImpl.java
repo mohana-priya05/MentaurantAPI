@@ -3,13 +3,11 @@ package com.mentaurantpro.mentaurant.serviceimpl;
 import com.mentaurantpro.mentaurant.dto.LoginRequestDto;
 import com.mentaurantpro.mentaurant.entity.UserRolesMapping;
 import com.mentaurantpro.mentaurant.entity.Users;
+import com.mentaurantpro.mentaurant.dto.UserResponseDto;
 import com.mentaurantpro.mentaurant.repository.UserRepository;
 import com.mentaurantpro.mentaurant.repository.UserRolesMappingRepository;
 import com.mentaurantpro.mentaurant.service.UserService;
 import com.mentaurantpro.mentaurant.utils.EncryptionDecryption;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -72,12 +70,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users getDetail(LoginRequestDto signup) {
+    public UserResponseDto getDetail(LoginRequestDto signup) {
         System.out.println("signup : "+ signup);
         Users user = new Users ();
         user.setFirstName(signup.getFirstName());
         user.setLastName(signup.getLastName());
         user.setEmail(signup.getEmail());
+
 
 
        String encryptedPass= EncryptionDecryption.encrypt(signup.getPassword() , secretKey);
@@ -89,7 +88,10 @@ public class UserServiceImpl implements UserService {
         rolesMapping.setRole_id(signup.getRole_id());
 
         UserRolesMapping savedRoles = userRolesMappingRepository.save(rolesMapping);
-        return savedUser;
+
+        UserResponseDto responseDto = new UserResponseDto(savedUser.getFirstName(),savedUser.getLastName(), savedUser.getEmail(), savedRoles.getRole_id());
+
+        return responseDto;
     }
 
 //    @Autowired
