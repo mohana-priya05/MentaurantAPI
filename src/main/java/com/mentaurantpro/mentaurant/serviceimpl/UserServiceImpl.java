@@ -1,15 +1,12 @@
 package com.mentaurantpro.mentaurant.serviceimpl;
 
-import com.mentaurantpro.mentaurant.dto.LoginRequestDto;
+import com.mentaurantpro.mentaurant.dto.SignUpRequestDto;
 import com.mentaurantpro.mentaurant.entity.UserRolesMapping;
 import com.mentaurantpro.mentaurant.entity.Users;
 import com.mentaurantpro.mentaurant.repository.UserRepository;
 import com.mentaurantpro.mentaurant.repository.UserRolesMappingRepository;
 import com.mentaurantpro.mentaurant.service.UserService;
 import com.mentaurantpro.mentaurant.utils.EncryptionDecryption;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -57,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Users> getAddUsers(List<LoginRequestDto> logins) {
+    public List<Users> getAddUsers(List<SignUpRequestDto> logins) {
         List<Users> usersArray = new ArrayList<>();
         logins.forEach(((user) -> {
             Users userDetail = new Users();
@@ -72,7 +69,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users getDetail(LoginRequestDto signup) {
+    public Users getDetail(SignUpRequestDto signup) {
         System.out.println("signup : "+ signup);
         Users user = new Users ();
         user.setFirstName(signup.getFirstName());

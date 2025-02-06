@@ -1,6 +1,6 @@
 package com.mentaurantpro.mentaurant.dto;
 
-public class LoginRequestDto {
+public class SignUpRequestDto {
     Integer id;
     String firstName;
     String lastName;
@@ -8,7 +8,7 @@ public class LoginRequestDto {
     String password;
     Integer role_id;
 
-    public LoginRequestDto(Integer id, String firstName, String lastName, String email, String password) {
+    public SignUpRequestDto(Integer id, String firstName, String lastName, String email, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -56,6 +56,7 @@ public class LoginRequestDto {
     public void setPassword(String password) {
         this.password = password;
     }
+
 
     public Integer getRole_id() {
         return this.role_id;
