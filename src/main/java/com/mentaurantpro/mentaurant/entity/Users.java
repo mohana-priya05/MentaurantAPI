@@ -1,6 +1,7 @@
 package com.mentaurantpro.mentaurant.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,6 +18,7 @@ public class Users {
     @Column(name="lastname")
     private String lastName;
     private String email;
+    @JsonIgnore
     @Column(name="userpassword")
     private String password;
 
