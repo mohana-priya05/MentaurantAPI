@@ -2,7 +2,9 @@ package com.mentaurantpro.mentaurant.serviceimpl;
 
 //import com.mentaurantpro.mentaurant.entity.SignInEntity;
 
-import com.mentaurantpro.mentaurant.dto.APIResponseDTO;
+//import com.mentaurantpro.mentaurant.dto.APIResponseDTO;
+import com.mentaurantpro.mentaurant.dto.Response;
+import com.mentaurantpro.mentaurant.dto.UserUpdateDTO;
 import com.mentaurantpro.mentaurant.entity.Users;
 //import com.mentaurantpro.mentaurant.repository.SignInRepository;
 import com.mentaurantpro.mentaurant.repository.UserRepository;
@@ -26,10 +28,10 @@ public class SignInServiceImpl implements SignInService {
     UserRepository userRepository;
 
     @Override
-    public ResponseEntity<Object> getSignInEntityByEmail(String email, String password) {
+    public ResponseEntity<Response> getSignInEntityByEmail(String email, String password) {
         Optional<Users> signInUser = userRepository.findByEmail(email);
         if (signInUser.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponseDTO("Failed", 404, "User Not Found for given input"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response(HttpStatus.BAD_REQUEST, "Bad Request", null));
         }
         String decrptedpass = EncryptionDecryption.decrypt(signInUser.get().getPassword(), secretKey);
 
@@ -38,11 +40,11 @@ public class SignInServiceImpl implements SignInService {
 //        headers.setContentType(MediaType.APPLICATION_JSON);
         if (decrptedpass.equals(password)) {
 //            return ResponseEntity.ok().body(new APIResponseDTO("Success", 200, "User Logged In Successfully"));
-            return ResponseEntity.ok().body("Success");
+            return ResponseEntity.ok().body(new Response(HttpStatus.OK, "Success", signInUser.get()));
         }
 
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new APIResponseDTO("Failed", 400, "Given input is wrong"));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response(HttpStatus.BAD_REQUEST, "Bad REquest",null));
     }
 
     @Override
@@ -53,5 +55,20 @@ public class SignInServiceImpl implements SignInService {
 //        }
 //        return signInUser.get().getEmail();
         return "";
+    }
+
+    @Override
+    public ResponseEntity<Response> UpdateUserDTO(UserUpdateDTO userUpdateDTO) {
+        Optional <Users> updateUsers = userRepository.findById(userUpdateDTO.getId());
+        if(updateUsers.isPresent()){
+            Users user = updateUsers.get();
+            user.setFirstName(userUpdateDTO.getFirstName());
+            user.setLastName(userUpdateDTO.getLastName());
+            userRepository.save(user);
+            return ResponseEntity.ok().body(new Response(HttpStatus.OK, "Success", "Edited Successfully"));
+
+
+        }
+        return null;
     }
 }
