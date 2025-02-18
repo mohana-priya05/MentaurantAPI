@@ -73,28 +73,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDto getDetail(LoginRequestDto signup) {
+    public String getDetail(LoginRequestDto signup) {
         System.out.println("signup : "+ signup);
         Users user = new Users ();
         user.setFirstName(signup.getFirstName());
         user.setLastName(signup.getLastName());
         user.setEmail(signup.getEmail());
 
-
-
        String encryptedPass= EncryptionDecryption.encrypt(signup.getPassword() , secretKey);
         user.setPassword(encryptedPass);
 
          Users savedUser  = userRepository.save(user);
         UserRolesMapping rolesMapping = new UserRolesMapping();
-        rolesMapping.setUser_id(savedUser.getId());
+        rolesMapping.setUserId(savedUser.getId());
         rolesMapping.setRole_id(signup.getRole_id());
 
         UserRolesMapping savedRoles = userRolesMappingRepository.save(rolesMapping);
 
-        UserResponseDto responseDto = new UserResponseDto(savedUser.getFirstName(),savedUser.getLastName(), savedUser.getEmail(), savedRoles.getRole_id());
+//        UserResponseDto responseDto = new UserResponseDto(savedUser.getFirstName(),savedUser.getLastName(), savedUser.getEmail(), savedRoles.getRole_id());
 
-        return responseDto;
+        return "successfully created";
     }
 
 //    @Autowired

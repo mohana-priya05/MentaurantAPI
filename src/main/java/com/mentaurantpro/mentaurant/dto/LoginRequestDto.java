@@ -15,6 +15,7 @@ public class LoginRequestDto {
         this.email = email;
         this.password = password;
         this.role_id = role_id;
+
     }
 
     public Integer getId() {

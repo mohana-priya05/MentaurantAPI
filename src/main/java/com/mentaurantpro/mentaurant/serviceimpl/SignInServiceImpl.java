@@ -4,10 +4,15 @@ package com.mentaurantpro.mentaurant.serviceimpl;
 
 //import com.mentaurantpro.mentaurant.dto.APIResponseDTO;
 import com.mentaurantpro.mentaurant.dto.Response;
+import com.mentaurantpro.mentaurant.dto.SinginDTOResponse;
 import com.mentaurantpro.mentaurant.dto.UserUpdateDTO;
+import com.mentaurantpro.mentaurant.entity.Roles;
+import com.mentaurantpro.mentaurant.entity.UserRolesMapping;
 import com.mentaurantpro.mentaurant.entity.Users;
 //import com.mentaurantpro.mentaurant.repository.SignInRepository;
+import com.mentaurantpro.mentaurant.repository.RoleRepository;
 import com.mentaurantpro.mentaurant.repository.UserRepository;
+import com.mentaurantpro.mentaurant.repository.UserRolesMappingRepository;
 import com.mentaurantpro.mentaurant.service.SignInService;
 import com.mentaurantpro.mentaurant.utils.EncryptionDecryption;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +31,10 @@ public class SignInServiceImpl implements SignInService {
     String secretKey;
     @Autowired
     UserRepository userRepository;
-
+    @Autowired
+    UserRolesMappingRepository userRolesMappingRepository;
+    @Autowired
+    RoleRepository roleRepository;
     @Override
     public ResponseEntity<Response> getSignInEntityByEmail(String email, String password) {
         Optional<Users> signInUser = userRepository.findByEmail(email);
@@ -39,8 +47,17 @@ public class SignInServiceImpl implements SignInService {
 //        HttpHeaders headers = new HttpHeaders();
 //        headers.setContentType(MediaType.APPLICATION_JSON);
         if (decrptedpass.equals(password)) {
+            Optional<UserRolesMapping> mappedUsers = userRolesMappingRepository.findByUserId(signInUser.get().getId());
+            Optional<Roles> roles=roleRepository.findById(mappedUsers.get().getRole_id());
 //            return ResponseEntity.ok().body(new APIResponseDTO("Success", 200, "User Logged In Successfully"));
-            return ResponseEntity.ok().body(new Response(HttpStatus.OK, "Success", signInUser.get()));
+            SinginDTOResponse singinDTOResponse =new SinginDTOResponse(
+                    signInUser.get().getFirstName(),
+                    signInUser.get().getLastName(),
+                    signInUser.get().getEmail(),
+                    mappedUsers.get().getRole_id(),
+                    roles.get().getRoleName()
+            );
+            return ResponseEntity.ok().body(new Response(HttpStatus.OK, "Success", singinDTOResponse));
         }
 
 

@@ -11,4 +11,5 @@ public interface UserRolesMappingRepository extends JpaRepository<UserRolesMappi
 
 //   Optional<UserRolesMapping> findByUser_id(Integer user_id);
 //   Optional<UserRolesMapping> findByRole_id(Integer role_id);
+    Optional<UserRolesMapping> findByUserId(Integer userId);
 }

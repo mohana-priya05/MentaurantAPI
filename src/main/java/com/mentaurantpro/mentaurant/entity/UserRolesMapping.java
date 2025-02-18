@@ -10,7 +10,8 @@ public class UserRolesMapping {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer user_id;
+    @Column(name = "user_id")
+    private Integer userId;
     private Integer role_id;
 
     public Integer getId() {
@@ -21,12 +22,12 @@ public class UserRolesMapping {
         this.id = id;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getRole_id() {

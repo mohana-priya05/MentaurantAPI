@@ -15,12 +15,18 @@ public class Users {
     private Integer id;
     @Column(name="firstname")
     private String firstName;
+
     @Column(name="lastname")
     private String lastName;
+
     private String email;
+
     @JsonIgnore
     @Column(name="userpassword")
     private String password;
+
+    @Column(name ="isDeleted")
+    private Integer isDeleted;
 
     public Integer getId() {
         return id;
@@ -62,4 +68,11 @@ public class Users {
         this.password = password;
     }
 
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 }

@@ -26,8 +26,8 @@ public class SignUpController {
 
 
     @PostMapping("/signup")
-    public UserResponseDto signUpMethod(@RequestBody LoginRequestDto signup){
-        return  userService.getDetail(signup);
+    public String signUpMethod(@RequestBody LoginRequestDto signup){
+        return userService.getDetail(signup);
 
     }
 

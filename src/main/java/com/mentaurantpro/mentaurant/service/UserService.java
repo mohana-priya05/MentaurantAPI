@@ -14,7 +14,7 @@ public interface UserService {
     String getUsersByEmail (String email);
     String getUsersByPassword (String password);
     public List<Users> getAddUsers(List<LoginRequestDto> login);
-    public UserResponseDto getDetail(LoginRequestDto signup);
+    public String getDetail(LoginRequestDto signup);
 
 
 
