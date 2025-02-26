@@ -1,6 +1,7 @@
 package com.mentaurantpro.mentaurant.service;
 
 //import com.mentaurantpro.mentaurant.dto.APIResponseDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mentaurantpro.mentaurant.dto.Response;
 import com.mentaurantpro.mentaurant.dto.UserUpdateDTO;
 import org.springframework.http.ResponseEntity;

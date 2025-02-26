@@ -3,6 +3,8 @@ package com.mentaurantpro.mentaurant.serviceimpl;
 //import com.mentaurantpro.mentaurant.entity.SignInEntity;
 
 //import com.mentaurantpro.mentaurant.dto.APIResponseDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mentaurantpro.mentaurant.dto.Response;
 import com.mentaurantpro.mentaurant.dto.SinginDTOResponse;
 import com.mentaurantpro.mentaurant.dto.UserUpdateDTO;
@@ -37,31 +39,39 @@ public class SignInServiceImpl implements SignInService {
     RoleRepository roleRepository;
     @Override
     public ResponseEntity<Response> getSignInEntityByEmail(String email, String password) {
-        Optional<Users> signInUser = userRepository.findByEmail(email);
-        if (signInUser.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response(HttpStatus.BAD_REQUEST, "Bad Request", null));
-        }
-        String decrptedpass = EncryptionDecryption.decrypt(signInUser.get().getPassword(), secretKey);
+        try {
+            Optional<Users> signInUser = userRepository.findByEmail(email);
+            if (signInUser.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response(HttpStatus.BAD_REQUEST, "Bad Request", null));
+            }
+            String decrptedpass = EncryptionDecryption.decrypt(signInUser.get().getPassword(), secretKey);
 
 
 //        HttpHeaders headers = new HttpHeaders();
 //        headers.setContentType(MediaType.APPLICATION_JSON);
-        if (decrptedpass.equals(password)) {
-            Optional<UserRolesMapping> mappedUsers = userRolesMappingRepository.findByUserId(signInUser.get().getId());
-            Optional<Roles> roles=roleRepository.findById(mappedUsers.get().getRole_id());
-//            return ResponseEntity.ok().body(new APIResponseDTO("Success", 200, "User Logged In Successfully"));
-            SinginDTOResponse singinDTOResponse =new SinginDTOResponse(
-                    signInUser.get().getFirstName(),
-                    signInUser.get().getLastName(),
-                    signInUser.get().getEmail(),
-                    mappedUsers.get().getRole_id(),
-                    roles.get().getRoleName()
-            );
-            return ResponseEntity.ok().body(new Response(HttpStatus.OK, "Success", singinDTOResponse));
+            if (decrptedpass.equals(password)) {
+                Optional<UserRolesMapping> mappedUsers = userRolesMappingRepository.findByUserId(signInUser.get().getId());
+                Optional<Roles> roles=roleRepository.findById(mappedUsers.get().getRole_id());
+    //            return ResponseEntity.ok().body(new APIResponseDTO("Success", 200, "User Logged In Successfully"));
+                SinginDTOResponse singinDTOResponse =new SinginDTOResponse(
+                        signInUser.get().getFirstName(),
+                        signInUser.get().getLastName(),
+                        signInUser.get().getEmail(),
+                        mappedUsers.get().getRole_id(),
+                        roles.get().getRoleName()
+                );
+                ObjectMapper objectmapper = new ObjectMapper();
+                String json = objectmapper.writeValueAsString(singinDTOResponse);
+                String encryptedPass= EncryptionDecryption.encrypt(json , secretKey);
+                HttpHeaders header = new HttpHeaders();
+                header.add( "token" , encryptedPass);
+                return ResponseEntity.ok().headers(header).body(new Response(HttpStatus.OK, "Success"));
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response(HttpStatus.BAD_REQUEST, "Bad REquest",null));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Response(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server error",null));
         }
-
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response(HttpStatus.BAD_REQUEST, "Bad REquest",null));
     }
 
     @Override
